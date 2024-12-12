@@ -8,15 +8,15 @@ import java.math.BigDecimal;
 public class DaoRunner {
     public static void main(String[] args) {
 
-            var students = StudentDao.getInstance().findAll();
-        System.out.println(students);
-
-
-        //updateTest();
-
-
+        //findAllTest();
+        updateTest();
         //saveTest();
         //deleteTest();
+    }
+
+    private static void findAllTest() {
+        var students = StudentDao.getInstance().findAll();
+        System.out.println(students);
     }
 
     private static void deleteTest() {
@@ -45,8 +45,9 @@ public class DaoRunner {
         var maybeStudent = studentDao.findById(10L);
         System.out.println(maybeStudent);
         maybeStudent.ifPresent(student -> {
-            student.setGradeMathemetic(Double.valueOf(2.0));
+            student.setGradeMathemetic(Double.valueOf(5.5));
             studentDao.update(student);
+            System.out.println(student);
         });
     }
 }
