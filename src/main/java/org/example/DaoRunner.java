@@ -2,16 +2,25 @@ package org.example;
 
 import org.example.Dao.StudentDao;
 import org.example.Entity.Student;
+import org.example.dto.StudentFilter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class DaoRunner {
     public static void main(String[] args) {
 
-        //findAllTest();
-        updateTest();
+        //findAllFilterTest();
+        findAllTest();
+        //updateTest();
         //saveTest();
         //deleteTest();
+    }
+
+    private static void findAllFilterTest() {
+        StudentFilter filter = new StudentFilter(2,0,5.1,"V");
+        var students =StudentDao.getInstance().findAll(filter);
+        System.out.println(students);
     }
 
     private static void findAllTest() {

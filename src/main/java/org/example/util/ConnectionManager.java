@@ -67,9 +67,13 @@ public final class ConnectionManager {
     }
 
     public static void closePool(){
-        for(Connection : sourceConnections){
-            sourceConnections.close();
-        }
+       try {
+           for (Connection sourceConnection : sourceConnections) {
+               sourceConnection.close();
+           }
+       }catch (SQLException e){
+           throw new RuntimeException(e);
+       }
     }
 
 }

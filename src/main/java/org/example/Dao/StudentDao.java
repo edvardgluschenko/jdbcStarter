@@ -1,6 +1,7 @@
 package org.example.Dao;
 
 import org.example.Entity.Student;
+import org.example.dto.StudentFilter;
 import org.example.exception.DaoException;
 import org.example.util.ConnectionManager;
 
@@ -10,6 +11,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.joining;
 
 public class StudentDao {
     private static final StudentDao INSTANCE = new StudentDao();
@@ -53,6 +57,41 @@ private static final String FIND_BY_ID = FIND_ALL+"""
         """;
 
     private StudentDao(){
+    }
+
+    public List<Student> findAll(StudentFilter filter){
+        List <Object> parameters = new ArrayList<>();
+        List <Object> whereSql = new ArrayList<>();
+        if(filter.firstName() != null){
+            parameters.add("%" + filter.firstName() + "%");
+            whereSql.add("first_name LIKE ?");
+        }
+        if(filter.gradeMathemetic() != null){
+            parameters.add(filter.gradeMathemetic());
+            whereSql.add("grade_mathemetic > ?");
+        }
+        parameters.add(filter.limit());
+        parameters.add(filter.offset());
+        var where = whereSql.stream()
+                .collect(joining("AND", "WHERE", "LIMIT ? OFFSET ?"));
+
+
+        var sql=FIND_ALL+ where;
+        try(var connection =ConnectionManager.get();
+        var preraredStatements=connection.prepareStatement(sql)){
+            for (int i=0; i< parameters.size(); i++){
+                preraredStatements.setObject(i+1, parameters.get(i));
+            }
+            var resultSet = preraredStatements.executeQuery();
+            List <Student> students = new ArrayList<>();
+            while(resultSet.next())
+            {
+                students.add(buildStudent(resultSet));
+            }
+            return students;
+        }catch (SQLException throwables){
+            throw new DaoException(throwables);
+        }
     }
 
     public List<Student> findAll(){
