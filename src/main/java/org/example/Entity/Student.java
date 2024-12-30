@@ -1,5 +1,7 @@
 package org.example.Entity;
 
+import java.util.Objects;
+
 public class Student {
     private Long id;
     private String firstName;
@@ -93,4 +95,35 @@ public class Student {
                 ", schoolId=" + schoolId +
                 "}";
     }
+
+    public boolean equals (Object o){
+        if(this==o) return true;
+        if(o==null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return
+                Objects.equals(firstName, student.firstName) &&
+                Objects.equals(lastName, student.lastName) &&
+                course==student.course &&
+                gradeMathemetic==student.gradeMathemetic &&
+                gradeHistory==student.gradeHistory &&
+                gradePhysics==student.gradePhysics &&
+                gradeChemistry==student.gradeChemistry &&
+                schoolId==student.schoolId;
+    }
+
+    public boolean equals1 (Object o){
+        if(this==o) return true;
+        if(o==null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return
+                        course==student.course &&
+                        gradeMathemetic==student.gradeMathemetic &&
+                        gradeHistory==student.gradeHistory &&
+                        gradePhysics==student.gradePhysics &&
+                        gradeChemistry==student.gradeChemistry &&
+                        schoolId==student.schoolId;
+
+
+    }
+
 }

@@ -73,7 +73,7 @@ private static final String FIND_BY_ID = FIND_ALL+"""
         parameters.add(filter.limit());
         parameters.add(filter.offset());
         var where = whereSql.stream()
-                .collect(joining("AND", "WHERE", "LIMIT ? OFFSET ?"));
+                .collect(Collectors.joining("AND", "WHERE", "LIMIT ? OFFSET ?"));
 
 
         var sql=FIND_ALL+ where;
@@ -93,24 +93,40 @@ private static final String FIND_BY_ID = FIND_ALL+"""
             throw new DaoException(throwables);
         }
     }
+//
+//    public List<Student> findAll(){
+//        try(var connection = ConnectionManager.get();
+//        var prepareStatement= connection.prepareStatement(FIND_ALL)){
+//            var resultSet=prepareStatement.executeQuery();
+//            List <Student> students = new ArrayList<>();
+//            while(resultSet.next()){
+//                students.add(buildStudent(resultSet));
+//            }
+//            return students;
+//        }catch (SQLException throwables){
+//            throw new DaoException(throwables);
+//        }
+//
+//    }
 
-    public List<Student> findAll(){
-        try(var connection = ConnectionManager.get();
-        var prepareStatement= connection.prepareStatement(FIND_ALL)){
-            var resultSet=prepareStatement.executeQuery();
-            List <Student> students = new ArrayList<>();
-            while(resultSet.next()){
-                students.add(buildStudent(resultSet));
-            }
-            return students;
-        }catch (SQLException throwables){
-            throw new DaoException(throwables);
-        }
 
-    }
+//    public Optional<Student> findById(Long id){
+//        try(var connection = ConnectionManager.get();
+//        var prepareStatement= connection.prepareStatement(FIND_BY_ID)){
+//         prepareStatement.setLong(1,id);
+//         var resultSet =prepareStatement.executeQuery();
+//         Student students =null;
+//         if(resultSet.next()){
+//             students= buildStudent(resultSet);
+//         }
+//
+//        return Optional.ofNullable(students);}
+//        catch (SQLException throwables){
+//            throw new DaoException(throwables);
+//        }
+//    }
 
-
-    public Optional<Student> findById(Long id){
+    public Student findById(Long id){
         try(var connection = ConnectionManager.get();
         var prepareStatement= connection.prepareStatement(FIND_BY_ID)){
          prepareStatement.setLong(1,id);
@@ -120,9 +136,9 @@ private static final String FIND_BY_ID = FIND_ALL+"""
              students= buildStudent(resultSet);
          }
 
-        return Optional.ofNullable(students);}
+        return students;}
         catch (SQLException throwables){
-            throw new DaoException(throwables);
+           throw new DaoException(throwables);
         }
     }
 

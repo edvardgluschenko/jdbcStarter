@@ -1,0 +1,20 @@
+create table if not exists schools2
+(
+id serial primary key,
+number integer,
+adress varchar(128)
+);
+
+create table if not exists students2
+(
+id serial primary key,
+first_name varchar(128) not null,
+last_name varchar(128) not null,
+course integer,
+grade_math real,
+grade_physics real,
+grade_chemistry real,
+grade_histor real,
+school_id integer references schools(id)
+);
+

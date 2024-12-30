@@ -31,9 +31,9 @@ public class School {
         this.adress=adress;
     }
     public String toString(){
-        return "School{" + "id=" + id +
-                ", number=" + number +
-                ", adress='" + adress + '\'' +
+        return "School{" + "school's id=" + id +
+                ", school's number=" + number +
+                ", school's adress='" + adress + '\'' +
                 "}";
     }
 }
